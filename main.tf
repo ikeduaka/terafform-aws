@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_key_pair" "New-3tier-key" {
   key_name   = "$(terraform import aws_key_pair.New-3tier-key New-3tier-key)"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCJ9CrHDZVsy2L6lDMGweZPFQ69lCvIaFmYx/8Q/CuvvVuLbPFEvfaMWHnLVUvlefQOM1uuT2dYbNGpwowfpYi7kooxdooD3pgewx6ueFqIV4HuxkTfSY8o3ISUBIgPKOic93vL4e7PAmWNKmahszCNV7wvBtu3kXL6St0DoEIfm4Ii2SFp8JzFTurK66Zedoi4i6yccV+D77jtYy6GshoXPsCggwVOLT8b3vU0ztK/2YLLfgA/v/Yrc6KLzh0c1V964AhkoJM/fzBhU5H0uYzqzhob/ykJmOjIc3s77PQrcISoTIadRiNjOHPntcSuF1zBLgScD0TpMEJ4sgKCuHAT"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2L6St0DoEIfm4gKCuHAT example.com"
 }
 
 
