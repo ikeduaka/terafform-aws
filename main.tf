@@ -1,3 +1,4 @@
+
 # EC2 instance type and region
 
 resource "aws_instance" "jenkins-ec2" {
@@ -28,8 +29,8 @@ resource "aws_instance" "jenkins-ec2" {
   EOF
 
   tags = {
+
     Name = "jenkins-ec2-${random_id.random.hex}"
-  }
 }
 
 resource "aws_default_security_group" "default" {
@@ -62,6 +63,7 @@ resource "aws_default_vpc" "default" {
     Name = "Default VPC"
   }
 }
+
 resource "aws_s3_bucket" "s3-jenkins" {
   bucket = "s3-jenkins-${random_id.random.hex}"
   tags = {
@@ -82,3 +84,4 @@ resource "aws_key_pair" "my20key_auth" {
   key_name = "my20key"
   public_key = file("~/.ssh/ed01key.pub")
   }
+
