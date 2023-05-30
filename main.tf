@@ -1,17 +1,10 @@
-provider "aws" {
-  region = "us-east-1"
-}
 
-resource "aws_key_pair" "New-3tier-key" {
-  key_name   = "$(terraform import aws_key_pair.New-3tier-key New-3tier-key)"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2L6St0DoEIfm4gKCuHAT example.com"
-}
-
+# EC2 instance type and region
 
 resource "aws_instance" "jenkins-ec2" {
-  ami           = "ami-053b0d53c279acc90"
-  instance_type = "t2.micro"
-  key_name      = "New-3tier-key"
+  ami           = "${lookup(var.ami_id, var.region)}"
+  instance_type = "${var.instance_type}"
+  key_name = "my20key"
 
   user_data = <<-EOF
   #!/bin/bash
@@ -36,8 +29,8 @@ resource "aws_instance" "jenkins-ec2" {
   EOF
 
   tags = {
-    Name = "jenkins-EC2"
-  }
+
+    Name = "jenkins-ec2-${random_id.random.hex}"
 }
 
 resource "aws_default_security_group" "default" {
@@ -70,12 +63,25 @@ resource "aws_default_vpc" "default" {
     Name = "Default VPC"
   }
 }
-resource "aws_s3_bucket" "jenkin-101231101" {
-  bucket = "jenkin-101231101"
 
+resource "aws_s3_bucket" "s3-jenkins" {
+  bucket = "s3-jenkins-${random_id.random.hex}"
   tags = {
-    Name        = "My bucket"
-    Environment = "Dev"
-    }
+    Name = "mynew jenkins_S3 Bucket"
 
 }
+}
+resource "aws_s3_bucket_acl" "jenkins_bucket_acl" {
+  bucket = aws_s3_bucket.s3-jenkins.id
+  acl = "private"
+}
+
+resource "random_id" "random" {
+  byte_length = 16
+}
+
+resource "aws_key_pair" "my20key_auth" {
+  key_name = "my20key"
+  public_key = file("~/.ssh/ed01key.pub")
+  }
+
